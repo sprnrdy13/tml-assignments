@@ -15,16 +15,21 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['*'], all
 ### EDIT CODE BELOW ###
 
 answer_question_1 = """ 
-Answered question 1 here
+Underfitting: performs poorly on training data, and poor generalization on other data
+
+Overfitting: performs well on training data, but poor generalization to other data
 """
 
 answer_question_2 = """ 
-Answered question 2 here
+Given a function (or dataset) and a starting point (line of best fit/prediction), the differences between the two can be minimized by using Mean squared error (MSE). However, this process is tedious and calculus can generalize and minimize via gradient descent. 
+The prediction will have a calculated gradient which will be applied to the prediction to adjust. This process will iterate until the gradient reaches a minimum. Once this occurs the prediction is optimized for the function. 
+
+
 """
 
 answer_question_3 = """ 
-Answered question 3 here
-"""
+The goal of regression is to create a prediction of a dependent variable based upon an independent variable. For this problem its classification of classes (yeezy).  
+""
 
 ## Replace none with your model
 pred_model = None 
@@ -35,7 +40,7 @@ async def answers_to_hw(request):
 
 @app.route("/api/class_list", methods=["GET"])
 async def class_list(request):
-    return JSONResponse([ "Replace this array with a list of your classes extracted from your model" ])
+    return JSONResponse(learn.data.classes)
 
 @app.route("/api/classify", methods=["POST"])
 async def classify_url(request):
@@ -43,9 +48,15 @@ async def classify_url(request):
     url_to_predict = body["url"]
 
     ## Make your prediction and store it in the preds variable
-
+    bytes = await get_bytes(url_to_predict)
+    img = open_image(BytesIO(bytes))
+    pred_class, pred_idx, losses = pred_model.predict(img)
+    
     return JSONResponse({
-        "predictions": preds,
+        "predictions": sorted(
+        zip(learn.data.classes, map(float, losses)),
+        key=lambda p: p[1], 
+        reverse=True
     })
 
 ### EDIT CODE ABOVE ###
