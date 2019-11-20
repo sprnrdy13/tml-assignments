@@ -32,7 +32,7 @@ The goal of regression is to create a prediction of a dependent variable based u
 ""
 
 ## Replace none with your model
-pred_model = None 
+pred_model = load_learner('./py', file='export.pkl')
 
 @app.route("/api/answers_to_hw", methods=["GET"])
 async def answers_to_hw(request):
