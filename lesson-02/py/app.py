@@ -29,7 +29,7 @@ The prediction will have a calculated gradient which will be applied to the pred
 
 answer_question_3 = """ 
 The goal of regression is to create a prediction of a dependent variable based upon an independent variable. For this problem its classification of classes (yeezy).  
-""
+"""
 
 ## Replace none with your model
 pred_model = load_learner('./py', file='export.pkl')
@@ -57,6 +57,7 @@ async def classify_url(request):
         zip(learn.data.classes, map(float, losses)),
         key=lambda p: p[1], 
         reverse=True
+        ),
     })
 
 ### EDIT CODE ABOVE ###
